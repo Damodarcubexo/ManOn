@@ -12,6 +12,7 @@ from rest_framework import status
 # Create your views here.
 class RegisterAPI(APIView):
     def post(self, request):
+        print("hii")
         serializer = UserTableSerializer(data=request.data)
         # print(serializer)
         UserTable.objects.all().first()
