@@ -1,7 +1,8 @@
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from .permissions import IsOwnerOrReadOnly
 import random
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
-from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -29,6 +30,12 @@ class RegisterAPI(APIView):
 class LoginAPI(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = AuthTokenSerializer
+
+
+class ProfileUpdate(generics.RetrieveUpdateAPIView):
+    queryset = UserTable.objects.all()
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
+    serializer_class = UserTableSerializer
 
 
 class SentMailView(generics.GenericAPIView):
