@@ -1,9 +1,8 @@
-from django.contrib.auth import password_validation
+
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-from user_data.models import UserTable
+from user_data.models import UserTable, Otp
 
 
 class UserTableSerializer(serializers.ModelSerializer):
@@ -33,15 +32,22 @@ class AuthTokenSerializer(TokenObtainPairSerializer):
         return token
 
 
-# class ProfileUpdateSerializer(serializers.Serializer):
-#     class Meta:
-#         model = UserTable
-#         fields = ['firstName', 'lastName', 'player_name', 'team_name']
-#
-#     def update(self, instance, validated_data):
-#         instance.firstName = validated_data.get('firstName', instance.firstName)
-#         instance.lastName = validated_data.get('lastName', instance.lastName)
-#         instance.player_name = validated_data.get('player_name', instance.player_name)
-#         instance.team_name = validated_data.get('team_name', instance.team_name)
-#         instance.save()
-#         return instance
+class SetNewPasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(min_length=6, max_length=20)
+    otp = serializers.CharField(min_length=6, max_length=6)
+    email = serializers.EmailField(min_length=1, max_length=30)
+
+    class Meta:
+        model = Otp
+        fields = '__all__'
+
+    def validate_otp(self, otp):
+        if otp:
+            if Otp.objects.filter(otp=otp):
+                return otp
+            return serializers.ValidationError('OTP does not matched')
+        return serializers.ValidationError('OTP does not exits.')
+
+
+
+
