@@ -30,16 +30,16 @@ class AuthTokenSerializer(TokenObtainPairSerializer):
         return token
 
 
-class ResetPasswordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Otp
-        fields = '__all__'
-
-    def validate(self, attrs):
-        if attrs['email'] != attrs['email']:
-            otp = random.randint(100000, 999999)
-            attrs['otp'] = otp
-        return attrs
+# class ResetPasswordSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Otp
+#         fields = '__all__'
+#
+#     def validate(self, attrs):
+#         if attrs['email'] != attrs['email']:
+#             otp = random.randint(100000, 999999)
+#             attrs['otp'] = otp
+#         return attrs
     #
     # def update(self, instance, validated_data):
     #     instance.set_password(validated_data['new_password'])
