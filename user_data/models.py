@@ -1,11 +1,6 @@
-import random
-
-from django.contrib.auth import password_validation
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
+from django.core.validators import RegexValidator
 from django.db import models
-from rest_framework import serializers
-
 from .manager import CustomManager
 
 
@@ -30,7 +25,7 @@ class UserTable(AbstractUser):
     def __str__(self):
         return str(self.first_name)
 
-       # def get_user_id(self):
+    # def get_user_id(self):
     #     return self.id + 10000000
     #     # return self.id+10000000
     #
@@ -47,3 +42,8 @@ class UserTable(AbstractUser):
     #
     #     if self.user_id is not None:
     #         UserTable.user_id = self.user_id
+
+
+class Otp(models.Model):
+    email = models.ForeignKey(UserTable, on_delete=models.CASCADE)
+    otp = models.IntegerField(default=0)
