@@ -7,4 +7,6 @@ class username(admin.ModelAdmin):
     list_display = ['id', 'firstName', 'user_id']
 
 
+
+
 admin.site.register(UserTable, username)
