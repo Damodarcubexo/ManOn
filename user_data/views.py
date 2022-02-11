@@ -15,7 +15,6 @@ from rest_framework import status, generics
 # Create your views here.
 class RegisterAPI(APIView):
     def post(self, request):
-        print("hii")
         serializer = UserTableSerializer(data=request.data)
         UserTable.objects.all().first()
         if serializer.is_valid():
@@ -25,6 +24,13 @@ class RegisterAPI(APIView):
             add_value.save()
             return Response({'message': 'successfully registered'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetAPI(APIView):
+    def get(self, request):
+        query_set = UserTable.objects.all()
+        serializer = UserTableSerializer(query_set, many=True)
+        return Response(serializer.data)
 
 
 class LoginAPI(TokenObtainPairView):
