@@ -37,8 +37,7 @@ class ProfileUpdate(generics.RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
     serializer_class = UserTableSerializer
 
-
-class SentMailView(generics.GenericAPIView):
+class SentMailView(APIView):
     def post(self, request):
         try:
             user = UserTable.objects.get(email=request.data['email'])
