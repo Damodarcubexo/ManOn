@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from ManOn_backend import settings
 from .models import UserTable, Otp
-from .serializers import UserTableSerializer, AuthTokenSerializer, SetNewPasswordSerializer
+from .serializers import UserTableSerializer, AuthTokenSerializer, SetNewPasswordSerializer, ProfileUpdateSerializer
 from rest_framework import status, generics
 
 
@@ -39,9 +39,24 @@ class LoginAPI(TokenObtainPairView):
 
 
 class ProfileUpdate(generics.RetrieveUpdateAPIView):
-    queryset = UserTable.objects.all()
+    queryset = UserTable.objects.only('id', 'firstName','lastName', 'player_name', 'team_name')
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
-    serializer_class = UserTableSerializer
+    serializer_class = ProfileUpdateSerializer
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response({'data': serializer.data}, status=status.HTTP_201_CREATED)
+
 
 
 class SentMailView(APIView):
