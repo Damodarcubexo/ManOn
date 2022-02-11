@@ -15,14 +15,6 @@ class UserTableSerializer(serializers.ModelSerializer):
         validated_data['password'] = make_password(validated_data['password'])
         return super(UserTableSerializer, self).create(validated_data)
 
-    def update(self, instance, validated_data):
-        instance.firstName = validated_data.get('firstName', instance.firstName)
-        instance.lastName = validated_data.get('lastName', instance.lastName)
-        instance.player_name = validated_data.get('player_name', instance.player_name)
-        instance.team_name = validated_data.get('team_name', instance.team_name)
-        instance.save()
-        return instance
-
 
 class AuthTokenSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -48,6 +40,20 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
             return serializers.ValidationError('OTP does not matched')
         return serializers.ValidationError('OTP does not exits.')
 
+
+class ProfileUpdateSerializer(serializers.Serializer):
+    firstName = serializers.CharField(max_length=150)
+    lastName = serializers.CharField(max_length=150)
+    player_name = serializers.CharField(max_length=150)
+    team_name = serializers.CharField(max_length=150)
+
+    def update(self, instance, validated_data):
+        instance.firstName = validated_data.get('firstName', instance.firstName)
+        instance.lastName = validated_data.get('lastName', instance.lastName)
+        instance.player_name = validated_data.get('player_name', instance.player_name)
+        instance.team_name = validated_data.get('team_name', instance.team_name)
+        instance.save()
+        return instance
 
 
 
