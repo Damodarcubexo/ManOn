@@ -31,7 +31,7 @@ class LoginAPI(TokenObtainPairView):
     serializer_class = AuthTokenSerializer
 
 
-class SentMailView(generics.GenericAPIView):
+class SentMailView(APIView):
     def post(self, request):
         try:
             user = UserTable.objects.get(email=request.data['email'])
