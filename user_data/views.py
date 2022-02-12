@@ -30,7 +30,8 @@ class GetAPI(APIView):
     def get(self, request):
         query_set = UserTable.objects.all()
         serializer = UserTableSerializer(query_set, many=True)
-        return Response(serializer.data)
+
+        return Response({'data': {'id': serializer.data}})
 
 
 class LoginAPI(TokenObtainPairView):
@@ -39,7 +40,7 @@ class LoginAPI(TokenObtainPairView):
 
 
 class ProfileUpdate(generics.RetrieveUpdateAPIView):
-    queryset = UserTable.objects.only('id', 'firstName','lastName', 'player_name', 'team_name')
+    queryset = UserTable.objects.only('id', 'firstName', 'lastName', 'player_name', 'team_name')
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
     serializer_class = ProfileUpdateSerializer
 
@@ -56,7 +57,6 @@ class ProfileUpdate(generics.RetrieveUpdateAPIView):
             instance._prefetched_objects_cache = {}
 
         return Response({'data': serializer.data}, status=status.HTTP_201_CREATED)
-
 
 
 class SentMailView(APIView):
