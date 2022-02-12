@@ -28,9 +28,10 @@ class RegisterAPI(APIView):
 class GetAPI(APIView):
     def get(self, request):
         query_set = UserTable.objects.all()
-        serializer = UserTableSerializer(query_set, many=True)
+        serializer = ProfileUpdateSerializer(query_set, many=True)
+        id = serializer.data[0]['id']
+        return Response({'data': {id: serializer.data}})
 
-        return Response({'data': {'id': serializer.data}})
 
 
 class LoginAPI(TokenObtainPairView):
