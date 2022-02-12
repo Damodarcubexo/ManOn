@@ -1,14 +1,13 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
 from .models import GameModel
 
 
 class GameModelSerializer(serializers.Serializer):
-    game_id = serializers.IntegerField(read_only=True)
-    player1 = serializers.StringRelatedField(many=True)
+    player1 = serializers.CharField(max_length=100)
     player1_score = serializers.IntegerField(default=0)
     player2 = serializers.CharField(max_length=50)
     player2_score = serializers.IntegerField(default=0)
-    datetime = serializers.DateTimeField()
+    # datetime = serializers.DateTimeField()
     player1_team = serializers.CharField(max_length=50)
     player2_team = serializers.CharField(max_length=50)
 

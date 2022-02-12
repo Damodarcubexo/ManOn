@@ -4,7 +4,8 @@ from user_data.models import UserTable
 
 
 class GameModel(models.Model):
-    player1 = models.ForeignKey(UserTable, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserTable, null=True,on_delete=models.CASCADE)
+    player1 = models.CharField(max_length=50)
     player1_score = models.IntegerField(default=0)
     player2 = models.CharField(max_length=50)
     player2_score = models.IntegerField(default=0)

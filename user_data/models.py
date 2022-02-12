@@ -46,4 +46,4 @@ class UserTable(AbstractUser):
 
 class Otp(models.Model):
     email = models.ForeignKey(UserTable, on_delete=models.CASCADE)
-    otp = models.IntegerField(default=0)
+    otp = models.IntegerField(default=0, unique=True)

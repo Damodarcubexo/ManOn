@@ -78,21 +78,6 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.sqlite3',
-#     #     'NAME': BASE_DIR / 'db.sqlite3',
-#
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': os.environ.get('DATABASE_NAME'),
-#         'USER': os.environ.get('DATABASE_USER'),
-#         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-#         'HOST': os.environ.get('DATABASE_HOST'),
-#         'PORT': os.environ.get('DATABASE_PORT'),
-#     }
-# }
-
 DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
@@ -100,13 +85,28 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd9psbstgh4vae8',
-        'USER': 'ryvgisuujrwbvy',
-        'PASSWORD': 'ed70680eaaa0dc6c5f185586e5274ccad63ad92214e3c9b29d20e50c3844729e',
-        'HOST': 'ec2-54-157-160-218.compute-1.amazonaws.com',
-        'PORT': 5432,
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT'),
     }
 }
+
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'd9psbstgh4vae8',
+#         'USER': 'ryvgisuujrwbvy',
+#         'PASSWORD': 'ed70680eaaa0dc6c5f185586e5274ccad63ad92214e3c9b29d20e50c3844729e',
+#         'HOST': 'ec2-54-157-160-218.compute-1.amazonaws.com',
+#         'PORT': 5432,
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -160,17 +160,17 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
 
-# EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
-# EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
-# EMAIL_PORT = os.environ.get('EMAIL_PORT')
-# EMAIL_HOST = os.environ.get('EMAIL_HOST')
-# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'lcy06shukla@gmail.com'
-EMAIL_HOST_PASSWORD = 'rzstwzpghyosfozf'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'lcy06shukla@gmail.com'
+# EMAIL_HOST_PASSWORD = 'rzstwzpghyosfozf'

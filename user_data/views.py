@@ -16,7 +16,6 @@ from rest_framework import status, generics
 class RegisterAPI(APIView):
     def post(self, request):
         serializer = UserTableSerializer(data=request.data)
-        UserTable.objects.all().first()
         if serializer.is_valid():
             new_key = serializer.save()
             add_value = UserTable.objects.get(id=new_key.pk)
