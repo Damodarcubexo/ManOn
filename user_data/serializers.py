@@ -42,6 +42,7 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
 
 
 class ProfileUpdateSerializer(serializers.Serializer):
+    id = serializers.PrimaryKeyRelatedField(read_only=True)
     firstName = serializers.CharField(max_length=150)
     lastName = serializers.CharField(max_length=150)
     player_name = serializers.CharField(max_length=150)
