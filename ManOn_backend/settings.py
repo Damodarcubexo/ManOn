@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user_data',
     'rest_framework',
     'rest_framework_simplejwt',
+    'game',
 ]
 
 MIDDLEWARE = [
