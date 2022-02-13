@@ -39,6 +39,7 @@ class GetAPI(APIView):
         return Response({'data': serializer.data})
 
 
+
 class LoginAPI(TokenObtainPairView):
     """Api fro user to login into game"""
     permission_classes = (AllowAny,)
