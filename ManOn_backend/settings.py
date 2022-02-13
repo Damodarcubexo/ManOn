@@ -92,6 +92,17 @@ DATABASES = {
         'PORT': os.environ.get('DATABASE_PORT'),
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'testdb',
+#         'USER': 'postgres',
+#         'PASSWORD': '1234',
+#         'HOST': 'localhost',
+#         'PORT': 5432,
+#     }
+# }
+
 
 # DATABASES = {
 #     # 'default': {
@@ -166,7 +177,6 @@ SIMPLE_JWT = {
 # EMAIL_HOST = os.environ.get('EMAIL_HOST')
 # EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 # EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
