@@ -15,6 +15,9 @@ class GameView(APIView):
         """to get the game history and will shown to user"""
 
         query_set = GameModel.objects.get(pk=id)
+
+        # serializer = GameModelSerializer(query_set, many=True)
+        # print(serializer)
         data = {
             "player1": query_set.player1,
             "player1_score": query_set.player1_score,
