@@ -1,4 +1,3 @@
-
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -24,10 +23,9 @@ class AuthTokenSerializer(TokenObtainPairSerializer):
         return token
 
 
-class SetNewPasswordSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(min_length=6, max_length=20)
+class OtpVerificationSerializer(serializers.ModelSerializer):
     otp = serializers.CharField(min_length=6, max_length=6)
-    email = serializers.EmailField(min_length=1, max_length=30)
+    email = serializers.EmailField()
 
     class Meta:
         model = Otp
@@ -35,10 +33,25 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
 
     def validate_otp(self, otp):
         if otp:
-            if Otp.objects.filter(otp=otp):
+            if Otp.objects.get(otp=otp):
                 return otp
             return serializers.ValidationError('OTP does not matched')
         return serializers.ValidationError('OTP does not exits.')
+
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(min_length=6, max_length=20)
+    email = serializers.EmailField()
+
+    class Meta:
+        model = Otp
+        fields = '__all__'
+
+    def validate_email(self, email):
+        user_instance = UserTable.objects.get(email=email)
+        if Otp.objects.filter(email_id=user_instance.pk):
+            return email
+        return serializers.ValidationError('Email does not matched')
 
 
 class ProfileUpdateSerializer(serializers.Serializer):
@@ -55,6 +68,3 @@ class ProfileUpdateSerializer(serializers.Serializer):
         instance.team_name = validated_data.get('team_name', instance.team_name)
         instance.save()
         return instance
-
-
-
