@@ -11,7 +11,7 @@ class UserTable(AbstractUser):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100, null=False, blank=False,
                                 validators=[RegexValidator(r'[A-Za-z0-9@#$%^&+=]{8,}',
-                                message='Must have atleast one: A-Z,a-z,0-9,sp. character')])
+                                                           message='Must have atleast one: A-Z,a-z,0-9,sp. character')])
     first_name = None
     last_name = None
     firstName = models.CharField(max_length=150, blank=True)
@@ -49,3 +49,4 @@ class Otp(models.Model):
     """model to store otp to reset the password of the user """
     email = models.ForeignKey(UserTable, on_delete=models.CASCADE)
     otp = models.IntegerField(default=0, unique=True)
+
