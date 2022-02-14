@@ -49,4 +49,4 @@ class Otp(models.Model):
     """model to store otp to reset the password of the user """
     email = models.ForeignKey(UserTable, on_delete=models.CASCADE)
     otp = models.IntegerField(default=0, unique=True)
-
+    created_on = models.DateTimeField(auto_now_add=True)
