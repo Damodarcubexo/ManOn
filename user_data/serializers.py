@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -33,7 +35,10 @@ class OtpVerificationSerializer(serializers.ModelSerializer):
 
     def validate_otp(self, otp):
         if otp:
+            print('hi')
             if Otp.objects.get(otp=otp):
+                # if Otp.objects.filter(email__email=self.instance['email'], otp=otp, created_on__second=300).exists():
+                print("hii")
                 return otp
             return serializers.ValidationError('OTP does not matched')
         return serializers.ValidationError('OTP does not exits.')

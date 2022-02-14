@@ -96,7 +96,7 @@ class OtpVerification(APIView):
     serializer_class = OtpVerificationSerializer
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(data=request.data,instance=request.data)
         print(request.data)
         # user_object = UserTable.objects.get(email=request.data["email"])
         # print(user_object.pk)

@@ -33,3 +33,19 @@ class Test_RegisterAPI(TestSetUp):
         user.save()
         res = self.client.post(self.login_url, self.user_data, format="json")
         self.assertAlmostEqual(res.status_code, 201, delta=200)
+
+    def test_sentMail_otp_toRegister_without_verifing(self):
+        res = self.client.post(self.sent_mail, self.user_data, format="json")
+        self.assertAlmostEqual(res.status_code, 400, delta=400)
+
+    def test_sentMail_otp_toRegister_verifing(self):
+        response = self.client.post(self.register_url, self.user_data, format="json")
+
+        email = self.user_data['email']
+        user = UserTable.objects.get(email=email)
+        # import pdb
+        # pdb.set_trace()
+        user.is_verified = True
+        user.save()
+        res = self.client.post(self.sent_mail, self.user_data, format="json")
+        self.assertAlmostEqual(res.status_code, 200, delta=200)
