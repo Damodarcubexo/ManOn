@@ -31,8 +31,7 @@ class RegisterAPI(APIView):
 
 class GetAPI(APIView):
     """To get the details of every user present in the database"""
-
-    def get(self):
+    def get(self, request):
         """get the details of users present in database"""
         query_set = UserTable.objects.all()
         serializer = ProfileUpdateSerializer(query_set, many=True)
@@ -48,8 +47,8 @@ class LoginAPI(TokenObtainPairView):
 
 class ProfileUpdate(generics.RetrieveUpdateAPIView):
     """Api for Updating the user details and store the updated data"""
-    queryset = UserTable.objects.only('id', 'firstName', 'lastName', 'player_name', 'team_name')
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
+    queryset = UserTable.objects.only('id', 'firstName', 'lastName', 'player_name', 'team_name')
     serializer_class = ProfileUpdateSerializer
 
     def update(self, request, *args, **kwargs):
