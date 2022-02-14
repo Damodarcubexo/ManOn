@@ -92,32 +92,32 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #         'PORT': os.environ.get('DATABASE_PORT'),
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'testdb',
-        'USER': 'vikrant',
-        'PASSWORD': 'vikrant123',
-        'HOST': 'localhost',
-        'PORT': 5432,
-    }
-}
-
-
 # DATABASES = {
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.sqlite3',
-#     #     'NAME': BASE_DIR / 'db.sqlite3',
-#
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'd9psbstgh4vae8',
-#         'USER': 'ryvgisuujrwbvy',
-#         'PASSWORD': 'ed70680eaaa0dc6c5f185586e5274ccad63ad92214e3c9b29d20e50c3844729e',
-#         'HOST': 'ec2-54-157-160-218.compute-1.amazonaws.com',
+#         'NAME': 'testdb',
+#         'USER': 'vikrant',
+#         'PASSWORD': 'vikrant123',
+#         'HOST': 'localhost',
 #         'PORT': 5432,
 #     }
 # }
+
+
+DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd9psbstgh4vae8',
+        'USER': 'ryvgisuujrwbvy',
+        'PASSWORD': 'ed70680eaaa0dc6c5f185586e5274ccad63ad92214e3c9b29d20e50c3844729e',
+        'HOST': 'ec2-54-157-160-218.compute-1.amazonaws.com',
+        'PORT': 5432,
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
