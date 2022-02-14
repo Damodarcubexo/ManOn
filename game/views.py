@@ -21,7 +21,7 @@ class GameView(APIView):
     def post(self, request, id):
         """To store the the game details"""
         user = UserTable.objects.get(id=id)
-        opponent = UserTable.objects.get(player_id=request.data['player_id'])
+        opponent = UserTable.objects.get(player_id=request.data['user_id'])
         if opponent.player_name != user.player_name:
 
             data = {

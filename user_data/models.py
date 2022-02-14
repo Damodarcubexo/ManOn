@@ -17,7 +17,7 @@ class UserTable(AbstractUser):
     firstName = models.CharField(max_length=150, blank=True)
     lastName = models.CharField(max_length=150, blank=True)
     player_name = models.CharField(max_length=150)
-    player_id = models.PositiveBigIntegerField(unique=True, blank=False, null=True)
+    user_id = models.PositiveBigIntegerField(unique=True, blank=False, null=True)
     team_name = models.CharField(max_length=150, unique=True, blank=False, null=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
