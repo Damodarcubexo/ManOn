@@ -1,4 +1,6 @@
 import random
+
+from django.http.response import Http404
 from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
@@ -21,20 +23,21 @@ class RegisterAPI(APIView):
         """so save the details and generating the user id"""
         serializer = UserTableSerializer(data=request.data)
         if serializer.is_valid():
-            new_key = serializer.save()
-            add_value = UserTable.objects.get(id=new_key.pk)
-            add_value.user_id = add_value.id + 10000000
-            add_value.save()
+            user_key = serializer.save()
+            add_user_id = UserTable.objects.get(id=user_key.pk)
+            add_user_id.user_id = add_user_id.id + 10000000
+            add_user_id.save()
             return Response({'message': 'successfully registered'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetAPI(APIView):
     """To get the details of every user present in the database"""
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         """get the details of users present in database"""
-        query_set = UserTable.objects.all()
+        query_set = UserTable.objects.filter(id=request.user.id)
         serializer = ProfileUpdateSerializer(query_set, many=True)
         return Response({'data': serializer.data})
 
@@ -45,26 +48,26 @@ class LoginAPI(TokenObtainPairView):
     serializer_class = AuthTokenSerializer
 
 
-class ProfileUpdate(generics.RetrieveUpdateAPIView):
-    """Api for Updating the user details and store the updated data"""
-    queryset = UserTable.objects.only('id', 'firstName', 'lastName', 'player_name', 'team_name')
-    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
-    serializer_class = ProfileUpdateSerializer
-
-    def update(self, request, *args, **kwargs):
-        """updating the profile and checking the data is valid or not"""
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        if getattr(instance, '_prefetched_objects_cache', None):
-            # If 'prefetch_related' has been applied to a queryset, we need to
-            # forcibly invalidate the prefetch cache on the instance.
-            instance._prefetched_objects_cache = {}
-
-        return Response({'data': serializer.data}, status=status.HTTP_201_CREATED)
+# class ProfileUpdate(generics.RetrieveUpdateAPIView):
+#     """Api for Updating the user details and store the updated data"""
+#     # authentication_classes = [J]
+#     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
+#     queryset = UserTable.objects.only('firstName', 'lastName', 'player_name', 'team_name')
+#     serializer_class = ProfileUpdateSerializer
+#
+#     def update(self, request, *args, **kwargs):
+#         """updating the profile and checking the data is valid or not"""
+#         partial = kwargs.pop('partial', False)
+#         instance = self.get_object()
+#         serializer = self.get_serializer(instance, data=request.data, partial=partial)
+#         serializer.is_valid(raise_exception=True)
+#         self.perform_update(serializer)
+#
+#         if getattr(instance, '_prefetched_objects_cache', None):
+#             # If 'prefetch_related' has been applied to a queryset, we need to
+#             # forcibly invalidate the prefetch cache on the instance.
+#             instance._prefetched_objects_cache = {}
+#         return Response({'data': serializer.data}, status=status.HTTP_201_CREATED)
 
 
 class SentMailView(APIView):
@@ -77,7 +80,6 @@ class SentMailView(APIView):
         except UserTable.DoesNotExist:
             return Response({'error': 'Email does not exits.'})
         otp = Otp.objects.create(email=user)
-
         otp.otp = random.randint(100000, 999999)
         otp.save()
         subject = 'Reset Your Password'
@@ -97,13 +99,26 @@ class OtpVerification(APIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        print(request.data)
         # user_object = UserTable.objects.get(email=request.data["email"])
-        # print(user_object.pk)
         if serializer.is_valid(raise_exception=True):
             return Response({"otp": "verified"}, status=status.HTTP_200_OK)
         return Response({"otp": "error occured"}, status=status.HTTP_400_BAD_REQUEST)
 
+      
+ class ProfileUpdate(APIView):
+    def get(self, request):
+        """get the details of users present in database"""
+        query_set = UserTable.objects.filter(id=request.user.id)
+        serializer = ProfileUpdateSerializer(query_set, many=True)
+        return Response({'data': serializer.data})      
+      
+    def put(self, request):
+        print(request.user.id)
+        query_set = UserTable.objects.get(id=request.user.id)
+        serializer = ProfileUpdateSerializer(query_set, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'data': serializer.data})
 
 class ResetPasswordview(generics.UpdateAPIView):
     """Api to reset the password and storing the new password into database"""
@@ -120,5 +135,5 @@ class ResetPasswordview(generics.UpdateAPIView):
                 user_object.password = make_password(request.data['password'])
                 user_object.save()
                 return Response({'status': 'password successfully changed'}, status=status.HTTP_201_CREATED)
-
             return Response({'status': 'An error occured'}, status=status.HTTP_400_BAD_REQUEST)
+
