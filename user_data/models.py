@@ -50,3 +50,5 @@ class Otp(models.Model):
     email = models.ForeignKey(UserTable, on_delete=models.CASCADE)
     otp = models.IntegerField(default=0, unique=True)
     created_on = models.DateTimeField(auto_now_add=True)
+
+

@@ -1,5 +1,5 @@
-from rest_framework import status, mixins
-from rest_framework.generics import GenericAPIView
+from rest_framework import status
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -40,3 +40,24 @@ class GameView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response({"error": "user can't play with himself"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class SearchPlayer(APIView):
+
+    def get(self, request):
+        User = ""
+        if "user_id" in request.data:
+            User = UserTable.objects.get(user_id=request.data['user_id'])
+
+        if "email" in request.data:
+            User = UserTable.objects.get(email=request.data['email'])
+        print(User.user_id)
+        print(User.player_name)
+        if not User:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        data = {
+            "user_id": User.user_id,
+            "player_name": User.player_name,
+            "player_team": User.team_name
+        }
+        return Response({"data": data}, status=status.HTTP_200_OK)

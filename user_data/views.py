@@ -1,6 +1,4 @@
 import random
-
-from django.http.response import Http404
 from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
@@ -8,9 +6,9 @@ from rest_framework.views import APIView
 from rest_framework import status, generics
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from user_data.permissions import IsOwnerOrReadOnly
 from ManOn_backend import settings
 from user_data.models import UserTable, Otp
+from user_data.permissions import IsOwnerOrReadOnly
 from user_data.serializers import UserTableSerializer, AuthTokenSerializer, SetNewPasswordSerializer, \
     ProfileUpdateSerializer, OtpVerificationSerializer
 
