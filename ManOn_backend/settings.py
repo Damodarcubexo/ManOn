@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4v@f**$k3vs%ot5itbdg@_z2+0@8qszgwz-cw@o5ltc@&n-5s='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 # }
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'testdb',
 #         'USER': 'vikrant',
 #         'PASSWORD': 'vikrant123',
@@ -167,8 +167,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
 }
 
 # EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
