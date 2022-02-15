@@ -12,7 +12,7 @@ from user_data.permissions import IsOwnerOrReadOnly
 from ManOn_backend import settings
 from user_data.models import UserTable, Otp
 from user_data.serializers import UserTableSerializer, AuthTokenSerializer, SetNewPasswordSerializer, \
-    ProfileUpdateSerializer
+    ProfileUpdateSerializer, OtpVerificationSerializer
 
 
 # Create your views here.
@@ -90,23 +90,21 @@ class SentMailView(APIView):
         return Response({'success': 'Mail sent'}, status=status.HTTP_200_OK)
 
 
-class ResetPasswordview(generics.UpdateAPIView):
-    """Api to reset the password and storing the new password into database"""
-    serializer_class = SetNewPasswordSerializer
+# obj1 = SentMailView()
+# obj1.
 
-    def put(self, request, *args, **kwargs):
-        """saving the new password of the user into database"""
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        request_email = request.data['email']
-        user_object = UserTable.objects.get(email=request_email)
-        if UserTable.objects.get(email=request_email):
-            user_object.password = make_password(request.data['password'])
-            user_object.save()
-            # Otp.objects.filter(email=serializer.validated_data.get('otp')).delete()
-            return Response({'status': 'password successfully changed'}, status=status.HTTP_201_CREATED)
 
-        return Response({'status': 'An error occured'}, status=status.HTTP_400_BAD_REQUEST)
+class OtpVerification(APIView):
+    serializer_class = OtpVerificationSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data, instance=request.data)
+        print(request.data)
+
+        # user_object = UserTable.objects.get(email=request.data["email"])
+        if serializer.is_valid(raise_exception=True):
+            return Response({"otp": "verified"}, status=status.HTTP_200_OK)
+        return Response({"otp": "error occured"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProfileUpdate(APIView):
@@ -117,7 +115,6 @@ class ProfileUpdate(APIView):
         serializer = ProfileUpdateSerializer(query_set, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK )
 
-    #
     def put(self, request):
         print(request.user.id)
         query_set = UserTable.objects.get(id=request.user.id)
@@ -126,3 +123,23 @@ class ProfileUpdate(APIView):
             serializer.save()
             return Response({'data': serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class ResetPasswordview(generics.UpdateAPIView):
+    """Api to reset the password and storing the new password into database"""
+    if OtpVerificationSerializer:
+        serializer_class = SetNewPasswordSerializer
+
+        def put(self, request, *args, **kwargs):
+            """saving the new password of the user into database"""
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            request_email = request.data['email']
+            user_object = UserTable.objects.get(email=request_email)
+            if UserTable.objects.get(email=request_email):
+                user_object.password = make_password(request.data['password'])
+                user_object.save()
+                return Response({'status': 'password successfully changed'}, status=status.HTTP_201_CREATED)
+            return Response({'status': 'An error occured'}, status=status.HTTP_400_BAD_REQUEST)
+
