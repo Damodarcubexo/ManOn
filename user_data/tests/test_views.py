@@ -40,8 +40,9 @@ class Test_RegisterAPI(TestSetUp):
 
     def test_sentMail_otp_toRegister_verifing(self):
         response = self.client.post(self.register_url, self.user_data, format="json")
-
         email = self.user_data['email']
+        # import pdb
+        # pdb.set_trace()
         user = UserTable.objects.get(email=email)
         # import pdb
         # pdb.set_trace()
@@ -49,3 +50,7 @@ class Test_RegisterAPI(TestSetUp):
         user.save()
         res = self.client.post(self.sent_mail, self.user_data, format="json")
         self.assertAlmostEqual(res.status_code, 200, delta=200)
+
+    # def test_otp_verification(self):
+    #     # response =
+    #     pass
