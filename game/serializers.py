@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from user_data.models import UserTable
 from .models import GameModel
 
 
@@ -14,4 +16,6 @@ class GameModelSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return GameModel.objects.create(**validated_data)
+
+
 

@@ -10,4 +10,5 @@ urlpatterns = [
     path('update/', views.ProfileUpdate.as_view()),
     # path('update1/', views.Update.as_view()),
     path('otp/', views.OtpVerification.as_view()),
+
 ]

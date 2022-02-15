@@ -92,6 +92,8 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #         'PORT': os.environ.get('DATABASE_PORT'),
 #     }
 # }
+
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -103,7 +105,7 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #     }
 # }
 
-
+#
 DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
@@ -136,6 +138,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

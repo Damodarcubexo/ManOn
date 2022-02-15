@@ -1,5 +1,5 @@
-from rest_framework import status, mixins
-from rest_framework.generics import GenericAPIView
+from rest_framework import status
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,15 +12,15 @@ class GameView(APIView):
     """ Api for post the game history and retrive the game history"""
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, id):
+    def get(self, request):
         """to get the game history and will shown to user"""
-        query_set = GameModel.objects.filter(user_id=id)
+        query_set = GameModel.objects.filter(user_id=request.user.id)
         serializer = GameModelSerializer(query_set, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
-    def post(self, request, id):
+    def post(self, request):
         """To store the the game details"""
-        user = UserTable.objects.get(id=id)
+        user = UserTable.objects.get(id=request.user.id)
         opponent = UserTable.objects.get(user_id=request.data['user_id'])
         if opponent.player_name != user.player_name:
 
@@ -40,3 +40,24 @@ class GameView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response({"error": "user can't play with himself"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class SearchPlayer(APIView):
+
+    def get(self, request):
+        User = ""
+        if "user_id" in request.data:
+            User = UserTable.objects.get(user_id=request.data['user_id'])
+
+        if "email" in request.data:
+            User = UserTable.objects.get(email=request.data['email'])
+        print(User.user_id)
+        print(User.player_name)
+        if not User:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        data = {
+            "user_id": User.user_id,
+            "player_name": User.player_name,
+            "player_team": User.team_name
+        }
+        return Response({"data": data}, status=status.HTTP_200_OK)
