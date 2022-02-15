@@ -33,13 +33,13 @@ class RegisterAPI(APIView):
 
 class GetAPI(APIView):
     """To get the details of every user present in the database"""
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,IsOwnerOrReadOnly,)
 
     def get(self, request):
         """get the details of users present in database"""
         query_set = UserTable.objects.filter(id=request.user.id)
         serializer = ProfileUpdateSerializer(query_set, many=True)
-        return Response({'data': serializer.data})
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
 
 class LoginAPI(TokenObtainPairView):
@@ -110,11 +110,12 @@ class ResetPasswordview(generics.UpdateAPIView):
 
 
 class ProfileUpdate(APIView):
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
     def get(self, request):
         """get the details of users present in database"""
         query_set = UserTable.objects.filter(id=request.user.id)
         serializer = ProfileUpdateSerializer(query_set, many=True)
-        return Response({'data': serializer.data})
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK )
 
     #
     def put(self, request):
@@ -123,5 +124,5 @@ class ProfileUpdate(APIView):
         serializer = ProfileUpdateSerializer(query_set, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'data': serializer.data})
+            return Response({'data': serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
