@@ -31,7 +31,7 @@ class RegisterAPI(APIView):
 
 class GetAPI(APIView):
     """To get the details of every user present in the database"""
-    permission_classes = (IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
 
     def get(self, request):
         """get the details of users present in database"""
@@ -107,21 +107,24 @@ class OtpVerification(APIView):
 
 class ProfileUpdate(APIView):
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
+
     def get(self, request):
         """get the details of users present in database"""
         query_set = UserTable.objects.filter(id=request.user.id)
         serializer = ProfileUpdateSerializer(query_set, many=True)
-        return Response({'data': serializer.data}, status=status.HTTP_200_OK )
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
     def put(self, request):
         print(request.user.id)
         query_set = UserTable.objects.get(id=request.user.id)
         serializer = ProfileUpdateSerializer(query_set, data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response({'data': serializer.data}, status=status.HTTP_201_CREATED)
+            try:
+                serializer.save()
+                return Response({'data': serializer.data}, status=status.HTTP_201_CREATED)
+            except:
+                return Response({'msg': "player name already exists"}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class ResetPasswordview(generics.UpdateAPIView):
