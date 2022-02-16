@@ -6,11 +6,12 @@ from rest_framework.views import APIView
 from game.models import GameModel
 from game.serializers import GameModelSerializer
 from user_data.models import UserTable
+from user_data.permissions import IsOwnerOrReadOnly
 
 
 class GameView(APIView):
     """ Api for post the game history and retrive the game history"""
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
 
     def get(self, request):
         """to get the game history and will shown to user"""
@@ -42,6 +43,7 @@ class GameView(APIView):
 
 
 class SearchPlayer(APIView):
+    permission_classes = (IsAuthenticated)
 
     def get(self, request):
         User = ""

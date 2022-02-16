@@ -14,8 +14,8 @@ class UserTable(AbstractUser):
                                                            message='Must have atleast one: A-Z,a-z,0-9,sp. character')])
     first_name = None
     last_name = None
-    firstName = models.CharField(max_length=150, blank=True)
-    lastName = models.CharField(max_length=150, blank=True)
+    firstName = models.CharField(max_length=150)
+    lastName = models.CharField(max_length=150)
     player_name = models.CharField(max_length=150)
     user_id = models.PositiveBigIntegerField(unique=True, blank=False, null=True)
     team_name = models.CharField(max_length=150, unique=True, blank=False, null=False)
