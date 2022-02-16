@@ -105,7 +105,7 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #     }
 # }
 
-#
+
 DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
@@ -113,10 +113,10 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd6p262gior1cvo',
-        'USER': 'oatvdxzahvhrno',
-        'PASSWORD': '74b18e70caff6ba9b7d89f28a85289c722ec33a47c36c6a28f2c7cadd24efec1',
-        'HOST': 'ec2-3-225-79-57.compute-1.amazonaws.com',
+        'NAME': 'df2iahq3ass73a',
+        'USER': 'shkxeyfiogduaf',
+        'PASSWORD': '8043a2a2d2c7bd1398978d4416a9358e31be55e1653d169c2817afebb95d5658',
+        'HOST': 'ec2-34-206-148-196.compute-1.amazonaws.com',
         'PORT': 5432,
     }
 }
