@@ -62,9 +62,12 @@ class SetNewPasswordSerializer(serializers.Serializer):
 class ProfileUpdateSerializer(serializers.Serializer):
     id = serializers.PrimaryKeyRelatedField(read_only=True)
     firstName = serializers.CharField(max_length=150)
+    email = serializers.EmailField(max_length=150)
+    user_id = serializers.IntegerField()
     lastName = serializers.CharField(max_length=150)
     player_name = serializers.CharField(max_length=150)
     team_name = serializers.CharField(max_length=150)
+
 
     def update(self, instance, validated_data):
         instance.firstName = validated_data.get('firstName', instance.firstName)
