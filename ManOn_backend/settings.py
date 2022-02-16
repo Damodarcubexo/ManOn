@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #     }
 # }
 
-#
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -187,3 +187,5 @@ EMAIL_PORT = 587
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'lcy06shukla@gmail.com'
 EMAIL_HOST_PASSWORD = 'rzstwzpghyosfozf'
+
+CELERY_RESULT_BACKEND = "redis"

@@ -43,7 +43,7 @@ class GameView(APIView):
 
 
 class SearchPlayer(APIView):
-    permission_classes = (IsAuthenticated)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         User = ""
