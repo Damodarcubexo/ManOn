@@ -140,4 +140,3 @@ class ResetPasswordview(generics.UpdateAPIView):
                 user_object.save()
                 return Response({'status': 'password successfully changed'}, status=status.HTTP_201_CREATED)
             return Response({'status': 'An error occured'}, status=status.HTTP_400_BAD_REQUEST)
-
