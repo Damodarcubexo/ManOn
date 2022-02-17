@@ -63,16 +63,23 @@ class ProfileUpdateSerializer(serializers.Serializer):
     id = serializers.PrimaryKeyRelatedField(read_only=True)
     firstName = serializers.CharField(max_length=150)
     email = serializers.EmailField(max_length=150)
-    user_id = serializers.IntegerField()
+    # user_id = serializers.IntegerField()
     lastName = serializers.CharField(max_length=150)
     player_name = serializers.CharField(max_length=150)
     team_name = serializers.CharField(max_length=150)
 
-
     def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email)
         instance.firstName = validated_data.get('firstName', instance.firstName)
         instance.lastName = validated_data.get('lastName', instance.lastName)
         instance.player_name = validated_data.get('player_name', instance.player_name)
         instance.team_name = validated_data.get('team_name', instance.team_name)
         instance.save()
         return instance
+
+
+class GetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserTable
+        # fields = '__all__'
+        fields = ['id', 'user_id', 'email', 'firstName', 'lastName', 'player_name', 'team_name']

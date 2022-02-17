@@ -10,7 +10,7 @@ from ManOn_backend import settings
 from user_data.models import UserTable, Otp
 from user_data.permissions import IsOwnerOrReadOnly
 from user_data.serializers import UserTableSerializer, AuthTokenSerializer, SetNewPasswordSerializer, \
-    ProfileUpdateSerializer, OtpVerificationSerializer
+    ProfileUpdateSerializer, OtpVerificationSerializer, GetSerializer
 
 
 # Create your views here.
@@ -36,7 +36,7 @@ class GetAPI(APIView):
     def get(self, request):
         """get the details of users present in database"""
         query_set = UserTable.objects.filter(id=request.user.id)
-        serializer = ProfileUpdateSerializer(query_set, many=True)
+        serializer = GetSerializer(query_set, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
 
