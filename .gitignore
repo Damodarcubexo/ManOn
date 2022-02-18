@@ -109,3 +109,4 @@ output.xml
 report.html
 *.png
 
+static/
