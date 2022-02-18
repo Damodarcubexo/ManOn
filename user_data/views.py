@@ -13,6 +13,7 @@ from user_data.serializers import UserTableSerializer, AuthTokenSerializer, SetN
     ProfileUpdateSerializer, OtpVerificationSerializer, GetSerializer
 from user_data.tasks import my_first_task, email_sent
 from django.http import HttpResponse
+from .tasks import email_sent
 
 
 # Create your views here.
@@ -83,17 +84,16 @@ class SentMailView(APIView):
         otp = Otp.objects.create(email=user)
         otp.otp = random.randint(100000, 999999)
         otp.save()
-        # def mail_sent(subject, receiver):
-        subject = 'Reset Your Password'
-        email_receiver = user.email
+
         body = f'This is your OTP to reset password {otp.otp}'
-        send_mail(subject, body, settings.EMAIL_HOST_USER, [email_receiver, ], fail_silently=False)
+        data = {
+            "email_receiver": user.email,
+            "body": body,
+            "duration": 10,
+        }
 
-        return Response({'success': 'Mail sent'}, status=status.HTTP_200_OK)
-
-
-# obj1 = SentMailView()
-# obj1.
+        email_sent.delay(data)
+        return Response({'hii'})
 
 
 class OtpVerification(APIView):
