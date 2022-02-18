@@ -46,14 +46,14 @@ class SearchPlayer(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        User = ""
-        if "user_id" in request.data:
-            User = UserTable.objects.get(user_id=request.data['user_id'])
 
-        if "email" in request.data:
-            User = UserTable.objects.get(email=request.data['email'])
-        print(User.user_id)
-        print(User.player_name)
+        User = ""
+        if "user_id" in request.query_params:
+            User = UserTable.objects.get(user_id=(request.query_params['user_id']))
+
+        if "email" in request.query_params:
+            User = UserTable.objects.get(email=request.query_params['email'])
+
         if not User:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 

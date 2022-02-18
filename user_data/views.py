@@ -11,6 +11,8 @@ from user_data.models import UserTable, Otp
 from user_data.permissions import IsOwnerOrReadOnly
 from user_data.serializers import UserTableSerializer, AuthTokenSerializer, SetNewPasswordSerializer, \
     ProfileUpdateSerializer, OtpVerificationSerializer, GetSerializer
+from user_data.tasks import my_first_task, email_sent
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -77,9 +79,11 @@ class SentMailView(APIView):
             user = UserTable.objects.get(email=request.data['email'])
         except UserTable.DoesNotExist:
             return Response({'error': 'Email does not exits.'})
+
         otp = Otp.objects.create(email=user)
         otp.otp = random.randint(100000, 999999)
         otp.save()
+        # def mail_sent(subject, receiver):
         subject = 'Reset Your Password'
         email_receiver = user.email
         body = f'This is your OTP to reset password {otp.otp}'
@@ -143,3 +147,8 @@ class ResetPasswordview(generics.UpdateAPIView):
                 user_object.save()
                 return Response({'status': 'password successfully changed'}, status=status.HTTP_201_CREATED)
             return Response({'status': 'An error occured'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+def my_test(request):
+    my_first_task.delay(10)
+    return HttpResponse('done')

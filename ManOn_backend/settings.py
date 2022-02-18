@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4v@f**$k3vs%ot5itbdg@_z2+0@8qszgwz-cw@o5ltc@&n-5s='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'game',
+    'celery',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -94,32 +97,32 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 # }
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'testdb',
-#         'USER': 'vikrant',
-#         'PASSWORD': 'vikrant123',
-#         'HOST': 'localhost',
-#         'PORT': 5432,
-#     }
-# }
-
-
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'df2iahq3ass73a',
-        'USER': 'shkxeyfiogduaf',
-        'PASSWORD': '8043a2a2d2c7bd1398978d4416a9358e31be55e1653d169c2817afebb95d5658',
-        'HOST': 'ec2-34-206-148-196.compute-1.amazonaws.com',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'testdb',
+        'USER': 'vikrant',
+        'PASSWORD': 'vikrant123',
+        'HOST': 'localhost',
         'PORT': 5432,
     }
 }
+
+
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'df2iahq3ass73a',
+#         'USER': 'shkxeyfiogduaf',
+#         'PASSWORD': '8043a2a2d2c7bd1398978d4416a9358e31be55e1653d169c2817afebb95d5658',
+#         'HOST': 'ec2-34-206-148-196.compute-1.amazonaws.com',
+#         'PORT': 5432,
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -188,4 +191,17 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'lcy06shukla@gmail.com'
 EMAIL_HOST_PASSWORD = 'rzstwzpghyosfozf'
 
-CELERY_RESULT_BACKEND = "redis"
+# CELERY_RESULT_BACKEND = 'django-db'
+# # CELERY_RESULT_BACKEND = 'db+sqlite:///results.db'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERY_CACHE_BACKEND = 'django-cache'
+
+
+BROKER_URL = 'pyamqp://localhost'
+CELERY_RESULT_BACKEND = 'rpc://localhost'
+# Celery Data Format
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
