@@ -44,8 +44,8 @@ class Test_RegisterAPI(TestSetUp):
         # import pdb
         # pdb.set_trace()
         user = UserTable.objects.get(email=email)
-        # import pdb
-        # pdb.set_trace()
+        import pdb
+        pdb.set_trace()
         user.is_verified = True
         user.save()
         res = self.client.post(self.sent_mail, self.user_data, format="json")
