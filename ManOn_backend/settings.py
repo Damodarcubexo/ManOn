@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4v@f**$k3vs%ot5itbdg@_z2+0@8qszgwz-cw@o5ltc@&n-5s='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'game',
+    'celery',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -95,7 +98,7 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #     }
 # }
 
-
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -190,4 +193,17 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'lcy06shukla@gmail.com'
 EMAIL_HOST_PASSWORD = 'rzstwzpghyosfozf'
 
-CELERY_RESULT_BACKEND = "redis"
+# CELERY_RESULT_BACKEND = 'django-db'
+# # CELERY_RESULT_BACKEND = 'db+sqlite:///results.db'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERY_CACHE_BACKEND = 'django-cache'
+
+
+BROKER_URL = 'pyamqp://localhost'
+CELERY_RESULT_BACKEND = 'rpc://localhost'
+# Celery Data Format
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
