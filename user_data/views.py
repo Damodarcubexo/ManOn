@@ -13,7 +13,6 @@ from user_data.serializers import UserTableSerializer, AuthTokenSerializer, SetN
     ProfileUpdateSerializer, OtpVerificationSerializer, GetSerializer
 from user_data.tasks import my_first_task, email_sent
 from django.http import HttpResponse
-from .tasks import email_sent
 
 
 # Create your views here.
@@ -84,16 +83,21 @@ class SentMailView(APIView):
         otp = Otp.objects.create(email=user)
         otp.otp = random.randint(100000, 999999)
         otp.save()
-
+        subject = 'Reset Your Password'
         body = f'This is your OTP to reset password {otp.otp}'
-        data = {
-            "email_receiver": user.email,
-            "body": body,
-            "duration": 10,
-        }
-
-        email_sent.delay(data)
-        return Response({'hii'})
+        # data = {
+        #     "email_receiver": user.email,
+        #     "body": body,
+        #     "duration": 10,
+        # }
+        #
+        # email_sent.delay(data)
+        # return Response({'hii'})
+        try:
+            send_mail(subject, body, settings.EMAIL_HOST_USER, [user.email, ], fail_silently=False)
+            return Response({"status": "mail sent "}, status=status.HTTP_201_CREATED)
+        except:
+            return Response({"status": "An error ocured. Try again!!!"}, status=status.HTTP_201_CREATED)
 
 
 class OtpVerification(APIView):
@@ -101,12 +105,9 @@ class OtpVerification(APIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data, instance=request.data)
-        print(request.data)
-
-        # user_object = UserTable.objects.get(email=request.data["email"])
         if serializer.is_valid(raise_exception=True):
             return Response({"otp": "verified"}, status=status.HTTP_200_OK)
-        return Response({"otp": "error occured"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"otp": "please generate otp again"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProfileUpdate(APIView):
@@ -142,10 +143,14 @@ class ResetPasswordview(generics.UpdateAPIView):
             serializer.is_valid(raise_exception=True)
             request_email = request.data['email']
             user_object = UserTable.objects.get(email=request_email)
-            if UserTable.objects.get(email=request_email):
-                user_object.password = make_password(request.data['password'])
-                user_object.save()
-                return Response({'status': 'password successfully changed'}, status=status.HTTP_201_CREATED)
+            if Otp.objects.filter(email_id=user_object.pk).exists():
+                if UserTable.objects.get(email=request_email):
+                    user_object.password = make_password(request.data['password'])
+                    user_object.save()
+                    otp_del = Otp.objects.filter(email=user_object.id)
+                    otp_del.delete()
+                    return Response({'status': 'password successfully changed'}, status=status.HTTP_201_CREATED)
+                return Response({'status': 'An error occured'}, status=status.HTTP_400_BAD_REQUEST)
             return Response({'status': 'An error occured'}, status=status.HTTP_400_BAD_REQUEST)
 
 
