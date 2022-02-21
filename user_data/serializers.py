@@ -35,13 +35,15 @@ class OtpVerificationSerializer(serializers.ModelSerializer):
 
     def validate_otp(self, otp):
         if otp:
-            print('hi')
             if Otp.objects.get(otp=otp):
-                # if Otp.objects.filter(email__email=self.instance['email'], otp=otp, created_on__second=300).exists():
-                print("hii")
-                return otp
-            return serializers.ValidationError('OTP does not matched')
-        return serializers.ValidationError('OTP does not exits.')
+                user_instance = UserTable.objects.get(email=self.instance["email"])
+                print(user_instance.pk)
+                if Otp.objects.get(email=user_instance.pk):
+                    return otp
+                return serializers.ValidationError('OTP does not matched')
+            return serializers.ValidationError('OTP does not exits.')
+        return serializers.ValidationError('Please generate Otp again!!!')
+
 
 
 class SetNewPasswordSerializer(serializers.Serializer):
@@ -54,9 +56,12 @@ class SetNewPasswordSerializer(serializers.Serializer):
 
     def validate_email(self, email):
         user_instance = UserTable.objects.get(email=email)
-        if Otp.objects.filter(email_id=user_instance.pk):
-            return email
-        return serializers.ValidationError('Email does not matched')
+        print(user_instance.email)
+        if Otp.objects.filter(email_id=user_instance.pk).exists():
+            if Otp.objects.get(email_id=user_instance.pk):
+                return email
+        else:
+            return serializers.ValidationError('Email does not matched')
 
 
 class ProfileUpdateSerializer(serializers.Serializer):
