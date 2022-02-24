@@ -128,7 +128,7 @@ class ProfileUpdate(APIView):
                 serializer.save()
                 return Response({'data': serializer.data}, status=status.HTTP_201_CREATED)
             except:
-                return Response({'msg': "player name already exists"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'msg': "Team name already exists"}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

@@ -1,3 +1,8 @@
+import operator
+import re
+from functools import reduce
+
+from django.db.models import Q
 from rest_framework import status
 
 from rest_framework.permissions import IsAuthenticated
@@ -46,20 +51,17 @@ class SearchPlayer(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-
-        User = ""
-        if "user_id" in request.query_params:
-            User = UserTable.objects.get(user_id=(request.query_params['user_id']))
-
-        if "email" in request.query_params:
-            User = UserTable.objects.get(email=request.query_params['email'])
-
-        if not User:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        data = {
-            "user_id": User.user_id,
-            "player_name": User.player_name,
-            "player_team": User.team_name
-        }
-        return Response({"data": data}, status=status.HTTP_200_OK)
+        query = []
+        result = re.match("[a-z0-9]+@[a-z]+\.[a-z]{2,3}", request.query_params["id"])
+        query.append(Q(email=request.query_params['id'])) if result else query.append(
+            Q(user_id=request.query_params['id']))
+        if UserTable.objects.filter(reduce(operator.or_, query)).exists():
+            User = UserTable.objects.get(reduce(operator.or_, query))
+            if request.user == User:
+                return Response({"details": "You can't play with your self"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({
+                "user_id": User.user_id,
+                "player_name": User.player_name,
+                "player_team": User.team_name
+            }, status=status.HTTP_200_OK)
+        return Response({"details": "We can't any find account "}, status=status.HTTP_404_NOT_FOUND)
