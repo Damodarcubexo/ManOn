@@ -1,3 +1,4 @@
+import datetime
 import operator
 import re
 from functools import reduce
@@ -28,6 +29,7 @@ class GameView(APIView):
         """To store the the game details"""
         user = UserTable.objects.get(id=request.user.id)
         opponent = UserTable.objects.get(user_id=request.data['user_id'])
+        # datetime.datetime
         if opponent.player_name != user.player_name:
 
             data = {
@@ -35,6 +37,7 @@ class GameView(APIView):
                 'player1': user.player_name,
                 "player1_team": user.team_name,
                 "player2": opponent.player_name,
+                "dateTime": datetime.datetime.now(),
                 "player2_team": opponent.team_name,
                 "player1_score": request.data['player1_score'],
                 "player2_score": request.data['player2_score'],
@@ -45,6 +48,13 @@ class GameView(APIView):
                 return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response({"error": "user can't play with himself"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        # print()
+        snippet = GameModel.objects.get(id=request.query_params["id"])
+        snippet.delete()
+        return Response({"details":"Game history deleted"},status=status.HTTP_204_NO_CONTENT)
+
 
 
 class SearchPlayer(APIView):
@@ -65,3 +75,4 @@ class SearchPlayer(APIView):
                 "player_team": User.team_name
             }, status=status.HTTP_200_OK)
         return Response({"details": "We can't any find account "}, status=status.HTTP_404_NOT_FOUND)
+
