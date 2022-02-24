@@ -21,7 +21,7 @@ class UserTable(AbstractUser):
     team_name = models.CharField(max_length=150, unique=True, blank=False, null=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-    objects = CustomManager()
+    objects_manager = CustomManager()
 
     def __str__(self):
         return str(self.first_name)
