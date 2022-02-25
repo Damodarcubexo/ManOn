@@ -24,7 +24,7 @@ class UserTable(AbstractUser):
     objects_manager = CustomManager()
 
     def __str__(self):
-        return str(self.first_name)
+        return str(self.firstName)
 
     # def get_user_id(self):
     #     return self.id + 10000000

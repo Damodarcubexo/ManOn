@@ -53,8 +53,7 @@ class GameView(APIView):
         # print()
         snippet = GameModel.objects.get(id=request.query_params["id"])
         snippet.delete()
-        return Response({"details":"Game history deleted"},status=status.HTTP_204_NO_CONTENT)
-
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class SearchPlayer(APIView):
@@ -75,4 +74,3 @@ class SearchPlayer(APIView):
                 "player_team": User.team_name
             }, status=status.HTTP_200_OK)
         return Response({"details": "We can't any find account "}, status=status.HTTP_404_NOT_FOUND)
-
