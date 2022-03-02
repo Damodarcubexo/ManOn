@@ -11,7 +11,7 @@ from user_data.models import UserTable, Otp
 from user_data.permissions import IsOwnerOrReadOnly
 from user_data.serializers import UserTableSerializer, AuthTokenSerializer, SetNewPasswordSerializer, \
     ProfileUpdateSerializer, OtpVerificationSerializer, GetSerializer
-from user_data.tasks import my_first_task, email_sent
+from user_data.tasks import my_first_task
 from django.http import HttpResponse
 
 
