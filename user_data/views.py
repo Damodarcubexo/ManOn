@@ -80,6 +80,8 @@ class SentMailView(APIView):
         except UserTable.DoesNotExist:
             return Response({'error': 'Email does not exits.'})
 
+        if Otp.objects.filter(email=user).exists:
+            Otp.objects.filter(email=user).delete()
         otp = Otp.objects.create(email=user)
         otp.otp = random.randint(100000, 999999)
         otp.save()
@@ -98,6 +100,8 @@ class SentMailView(APIView):
             return Response({"status": "mail sent "}, status=status.HTTP_201_CREATED)
         except:
             return Response({"status": "An error ocured. Try again!!!"}, status=status.HTTP_201_CREATED)
+
+
 
 
 class OtpVerification(APIView):
@@ -120,7 +124,6 @@ class ProfileUpdate(APIView):
     #     return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
     def put(self, request):
-        print(request.user.id)
         query_set = UserTable.objects.get(id=request.user.id)
         serializer = ProfileUpdateSerializer(query_set, data=request.data)
         if serializer.is_valid():
