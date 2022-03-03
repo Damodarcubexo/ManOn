@@ -1,6 +1,5 @@
-
 from rest_framework import serializers
-from .models import GameModel
+from .models import GameModel, SearchModel
 
 
 class GameModelSerializer(serializers.Serializer):
@@ -16,3 +15,11 @@ class GameModelSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return GameModel.objects.create(**validated_data)
+
+
+class SearchModelSerializer(serializers.ModelSerializer):
+    """To serialize and create the data of Searched team"""
+
+    class Meta:
+        model = SearchModel
+        fields = '__all__'

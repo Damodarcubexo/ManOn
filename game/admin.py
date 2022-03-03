@@ -1,5 +1,5 @@
 from django.contrib import admin
-from game.models import GameModel
+from game.models import GameModel, SearchModel
 
 
 # Register your models here.
@@ -8,3 +8,4 @@ class details(admin.ModelAdmin):
 
 
 admin.site.register(GameModel, details)
+admin.site.register(SearchModel)
