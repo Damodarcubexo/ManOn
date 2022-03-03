@@ -16,3 +16,14 @@ class GameModel(models.Model):
 
     def __str__(self):
         return str(self.player1)
+
+
+class SearchModel(models.Model):
+    user = models.ForeignKey(UserTable, null=True, on_delete=models.CASCADE)
+    email = models.EmailField(unique=False, null=True)
+    player_id = models.IntegerField()
+    player_name = models.CharField(max_length=50)
+    player_team = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.pk)
