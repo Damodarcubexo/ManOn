@@ -68,12 +68,13 @@ class SearchPlayer(APIView):
             User = UserTable.objects.get(reduce(operator.or_, query))
             if request.user == User:
                 return Response({"details": "You can't play with your self"}, status=status.HTTP_404_NOT_FOUND)
+            print(User.email)
             data = {
                 "user": request.user.id,
                 "player_id": User.user_id,
                 "player_name": User.player_name,
                 "player_team": User.team_name,
-                "email_id": User.email
+                "email": User.email
             }
             player = SearchModel.objects.filter(user=request.user.id)
             if player.filter(player_id=User.user_id).exists():
