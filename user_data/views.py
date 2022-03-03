@@ -43,7 +43,7 @@ class GetAPI(APIView):
 
 
 class LoginAPI(TokenObtainPairView):
-    """Api fro user to login into game"""
+    """Api for user to login into game"""
     permission_classes = (AllowAny,)
     serializer_class = AuthTokenSerializer
 
@@ -100,8 +100,6 @@ class SentMailView(APIView):
             return Response({"status": "mail sent "}, status=status.HTTP_201_CREATED)
         except:
             return Response({"status": "An error ocured. Try again!!!"}, status=status.HTTP_201_CREATED)
-
-
 
 
 class OtpVerification(APIView):

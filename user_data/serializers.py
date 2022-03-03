@@ -10,6 +10,7 @@ class UserTableSerializer(serializers.ModelSerializer):
         fields = ['email', 'password', 'firstName', 'lastName', 'player_name', 'user_id', 'team_name']
 
     def create(self, validated_data):
+        validated_data['email'] = validated_data['email'].lower()
         validated_data['password'] = make_password(validated_data['password'])
         return super(UserTableSerializer, self).create(validated_data)
 

@@ -76,4 +76,5 @@ class SearchPlayer(APIView):
             }, status=status.HTTP_200_OK)
 
 
-        return Response({"details": "We can't any find account "}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"details": "We can't find any account "}, status=status.HTTP_404_NOT_FOUND)
+

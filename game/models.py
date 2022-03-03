@@ -16,5 +16,3 @@ class GameModel(models.Model):
 
     def __str__(self):
         return str(self.player1)
-
-
