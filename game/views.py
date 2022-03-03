@@ -71,6 +71,9 @@ class SearchPlayer(APIView):
             return Response({
                 "user_id": User.user_id,
                 "player_name": User.player_name,
-                "player_team": User.team_name
+                "player_team": User.team_name,
+                "email": User.email,
             }, status=status.HTTP_200_OK)
+
+
         return Response({"details": "We can't any find account "}, status=status.HTTP_404_NOT_FOUND)

@@ -7,7 +7,6 @@ from user_data.models import UserTable, Otp
 class UserTableSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTable
-        # fields = '__all__'
         fields = ['email', 'password', 'firstName', 'lastName', 'player_name', 'user_id', 'team_name']
 
     def create(self, validated_data):
@@ -35,13 +34,11 @@ class OtpVerificationSerializer(serializers.ModelSerializer):
         if otp:
             if Otp.objects.get(otp=otp):
                 user_instance = UserTable.objects.get(email=self.instance["email"])
-                print(user_instance.pk)
                 if Otp.objects.get(email=user_instance.pk):
                     return otp
                 return serializers.ValidationError('OTP does not matched')
             return serializers.ValidationError('OTP does not exits.')
         return serializers.ValidationError('Please generate Otp again!!!')
-
 
 
 class SetNewPasswordSerializer(serializers.Serializer):
