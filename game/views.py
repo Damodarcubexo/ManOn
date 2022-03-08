@@ -34,6 +34,7 @@ class GameView(APIView):
 
             data = {
                 "user_id": user.id,
+                # "player_id":user.user_id,
                 'player1': user.player_name,
                 "player1_team": user.team_name,
                 "player2": opponent.player_name,

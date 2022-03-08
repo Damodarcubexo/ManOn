@@ -1,7 +1,16 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 from user_data.manager import CustomManager
+
+
+# def nameValidator(value):
+#     if RegexValidator(r'[a-zA-z]') in  value:
+#         if value == RegexValidator(r'[0-9~!@#$%^&*()_+<>,.?/":;|\}]{[[]`]'):
+#             print('HIii')
+#             raise ValidationError('Must use  CHARACTERS only')
+#     print("hwllo")
 
 
 # Create your models here.
@@ -10,12 +19,14 @@ class UserTable(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100, null=False, blank=False,
-                                validators=[RegexValidator(r'[A-Za-z0-9@#$%^&+=]{8,}',
+                                validators=[RegexValidator(r'[A-Za-z0-9@#$%^&+=]{6,}',
                                                            message='Must have atleast one: A-Z,a-z,0-9,sp. character')])
     first_name = None
     last_name = None
-    firstName = models.CharField(max_length=150)
-    lastName = models.CharField(max_length=150)
+    firstName = models.CharField(max_length=150, validators=[RegexValidator(r'^[a-zA-Z .]+$',
+                                                                            message='Must use ALPHA CHARACTERS only')])
+    lastName = models.CharField(max_length=150, validators=[RegexValidator(r'^[a-zA-Z]+$',
+                                                                           message='Must use ALPHA CHARACTERS only')])
     player_name = models.CharField(max_length=150)
     user_id = models.PositiveBigIntegerField(unique=True, blank=False, null=True)
     team_name = models.CharField(max_length=150, unique=True, blank=False, null=False)
@@ -50,5 +61,3 @@ class Otp(models.Model):
     email = models.ForeignKey(UserTable, on_delete=models.CASCADE)
     otp = models.IntegerField(default=0, unique=True)
     created_on = models.DateTimeField(auto_now_add=True)
-
-

@@ -5,6 +5,7 @@ from .models import GameModel, SearchModel
 class GameModelSerializer(serializers.Serializer):
     """for serializing data to required format"""
     user_id = serializers.CharField(max_length=20)
+    # id = serializers.IntegerField()
     player1 = serializers.CharField(max_length=100)
     player1_score = serializers.IntegerField(default=0)
     player2 = serializers.CharField(max_length=50)
