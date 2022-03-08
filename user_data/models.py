@@ -19,7 +19,7 @@ class UserTable(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100, null=False, blank=False,
-                                validators=[RegexValidator(r'[A-Za-z0-9@#$%^&+=]{8,}',
+                                validators=[RegexValidator(r'[A-Za-z0-9@#$%^&+=]{6,}',
                                                            message='Must have atleast one: A-Z,a-z,0-9,sp. character')])
     first_name = None
     last_name = None

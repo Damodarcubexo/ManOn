@@ -6,6 +6,7 @@ class GameModel(models.Model):
     """model to store the game history"""
 
     user = models.ForeignKey(UserTable, null=True, on_delete=models.CASCADE)
+    # player_id = models.IntegerField(null=True)
     player1 = models.CharField(max_length=50)
     player1_score = models.IntegerField(default=0)
     player2 = models.CharField(max_length=50)
