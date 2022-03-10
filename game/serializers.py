@@ -9,7 +9,7 @@ class GameModelSerializer(serializers.ModelSerializer):
     # player1 = serializers.CharField(max_length=100)
     # player1_score = serializers.IntegerField(default=0)
     # player2 = serializers.CharField(max_length=50)
-    # dateTime = serializers.DateTimeField(format="%Y-%m-%d %H:%M %p")
+    dateTime = serializers.DateTimeField(format="%Y-%m-%d %H:%M %p")
     # player2_score = serializers.IntegerField(default=0)
     # player1_team = serializers.CharField(max_length=50)
     # player2_team = serializers.CharField(max_length=50)
