@@ -11,7 +11,7 @@ class GameModel(models.Model):
     player1_score = models.IntegerField(default=0)
     player2 = models.CharField(max_length=50)
     player2_score = models.IntegerField(default=0)
-    dateTime = models.DateTimeField(auto_now_add=True)
+    dateTime = models.DateTimeField()
     player1_team = models.CharField(max_length=50)
     player2_team = models.CharField(max_length=50)
 
