@@ -22,14 +22,13 @@ class GameView(APIView):
     def get(self, request):
         """to get the game history and will shown to user"""
         query_set = GameModel.objects.filter(user_id=request.user.id)
-        serializer = GameModelSerializer(query_set, many=True)
+        serializer = GameModelSerializer(query_set,many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request):
         """To store the the game details"""
         user = UserTable.objects.get(id=request.user.id)
         opponent = UserTable.objects.get(user_id=request.data['user_id'])
-        # datetime.datetime
         if opponent.player_name != user.player_name:
 
             data = {
