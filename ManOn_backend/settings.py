@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #     }
 # }
 
-#
+# #
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -150,7 +150,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+
+TIME_ZONE = 'Asia/Kolkata'
+
 
 USE_I18N = True
 
@@ -179,7 +181,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
 }
 
-# EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+# EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')UTC
 # EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
 # EMAIL_PORT = os.environ.get('EMAIL_PORT')
 # EMAIL_HOST = os.environ.get('EMAIL_HOST')

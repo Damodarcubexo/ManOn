@@ -29,7 +29,7 @@ class GameView(APIView):
         """To store the the game details"""
         user = UserTable.objects.get(id=request.user.id)
         opponent = UserTable.objects.get(user_id=request.data['user_id'])
-        if opponent.player_name != user.player_name:
+        if opponent.team_name != user.team_name:
 
             data = {
                 "user_id": user.id,
