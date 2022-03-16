@@ -21,7 +21,7 @@ class GameView(APIView):
 
     def get(self, request):
         """to get the game history and will shown to user"""
-        query_set = GameModel.objects.filter(user_id=request.user.id)
+        query_set = GameModel.objects.filter(user_id=request.user.id).order_by('-dateTime')
         serializer = GameModelSerializer(query_set,many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
