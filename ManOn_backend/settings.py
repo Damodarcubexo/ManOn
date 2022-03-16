@@ -179,7 +179,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
 }
 
-# EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+# EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')UTC
 # EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
 # EMAIL_PORT = os.environ.get('EMAIL_PORT')
 # EMAIL_HOST = os.environ.get('EMAIL_HOST')
