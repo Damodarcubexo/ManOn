@@ -3,8 +3,7 @@ from user_data.models import UserTable
 
 
 class GameModel(models.Model):
-    """model to store the game history"""
-
+    """model to store the game history """
     user = models.ForeignKey(UserTable, null=True, on_delete=models.CASCADE)
     # player_id = models.IntegerField(null=True)
     player1 = models.CharField(max_length=50)
@@ -28,3 +27,23 @@ class SearchModel(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+
+class ResumeGame(models.Model):
+    user = models.OneToOneField(UserTable, null=True, on_delete=models.CASCADE)
+    userid1 = models.IntegerField()
+    userid2 = models.IntegerField()
+    player1 = models.CharField(max_length=100)
+    player2 = models.CharField(max_length=100)
+    team1 = models.CharField(max_length=100)
+    team2 = models.CharField(max_length=100)
+    score1 = models.IntegerField()
+    score2 = models.IntegerField()
+    positions1 = models.BooleanField()
+    position2 = models.BooleanField()
+    position3 = models.BooleanField
+    inning = models.IntegerField()
+    balls = models.IntegerField()
+    outs = models.IntegerField()
+    donehits = models.IntegerField()
+    EH = models.BooleanField()

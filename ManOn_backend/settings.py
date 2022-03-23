@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'game',
-    'celery',
-    'django_celery_beat',
-    'django_celery_results',
+    # 'celery',
+    # 'django_celery_beat',
+    # 'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +115,7 @@ DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
-
+    # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'df2iahq3ass73a',

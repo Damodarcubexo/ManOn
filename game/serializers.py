@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import GameModel, SearchModel
+from .models import GameModel, SearchModel, ResumeGame
 
 
 class GameModelSerializer(serializers.ModelSerializer):
@@ -28,4 +28,11 @@ class SearchModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SearchModel
+        fields = '__all__'
+
+class ResumeModelSerializer(serializers.ModelSerializer):
+    """To serialize and create the data of Searched team"""
+
+    class Meta:
+        model = ResumeGame
         fields = '__all__'

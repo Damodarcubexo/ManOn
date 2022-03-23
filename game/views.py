@@ -9,8 +9,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from game.models import GameModel, SearchModel
-from game.serializers import GameModelSerializer, SearchModelSerializer
+from game.models import GameModel, SearchModel, ResumeGame
+from game.serializers import GameModelSerializer, SearchModelSerializer, ResumeModelSerializer
 from user_data.models import UserTable
 from user_data.permissions import IsOwnerOrReadOnly
 
@@ -68,7 +68,7 @@ class SearchPlayer(APIView):
             User = UserTable.objects.get(reduce(operator.or_, query))
             if request.user == User:
                 return Response({"details": "You can't play with your self"}, status=status.HTTP_404_NOT_FOUND)
-            print(User.email)
+            # print(User.email)
             data = {
                 "user": request.user.id,
                 "player_id": User.user_id,
@@ -103,3 +103,11 @@ class SearchHistory(APIView):
         query_set = SearchModel.objects.filter(user=request.user.id)
         serializer = SearchModelSerializer(query_set, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+class ResumeView(APIView):
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    def post(self, request):
+
+
+
+        return Response("Hi")
