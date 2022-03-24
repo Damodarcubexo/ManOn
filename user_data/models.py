@@ -28,7 +28,7 @@ class UserTable(AbstractUser):
     lastName = models.CharField(max_length=150, validators=[RegexValidator(r'^[a-zA-Z]+$',
                                                                            message='Must use ALPHA CHARACTERS only')])
     player_name = models.CharField(max_length=150)
-    user_id = models.PositiveBigIntegerField(unique=True, blank=False, null=True)
+    search_id = models.PositiveBigIntegerField(unique=True, blank=False, null=True)
     team_name = models.CharField(max_length=150, unique=True, blank=False, null=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

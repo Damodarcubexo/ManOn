@@ -25,7 +25,7 @@ class RegisterAPI(APIView):
         if serializer.is_valid():
             user_key = serializer.save()
             add_user_id = UserTable.objects.get(id=user_key.pk)
-            add_user_id.user_id = add_user_id.id + 10000000
+            add_user_id.search_id = add_user_id.id + 10000000
             add_user_id.save()
             return Response({'message': 'successfully registered'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
