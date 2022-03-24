@@ -9,3 +9,4 @@ class username(admin.ModelAdmin):
 
 admin.site.register(UserTable, username)
 admin.site.register(Otp)
+

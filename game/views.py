@@ -22,7 +22,7 @@ class GameView(APIView):
     def get(self, request):
         """to get the game history and will shown to user"""
         query_set = GameModel.objects.filter(user_id=request.user.id).order_by('-dateTime')
-        serializer = GameModelSerializer(query_set,many=True)
+        serializer = GameModelSerializer(query_set, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -104,10 +104,40 @@ class SearchHistory(APIView):
         serializer = SearchModelSerializer(query_set, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
+
 class ResumeView(APIView):
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+
+    def get(self, request):
+        """get the details of users search history"""
+        query_set = ResumeGame.objects.filter(user=request.user.id)
+        serializer = ResumeModelSerializer(query_set, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
     def post(self, request):
-
-
-
-        return Response("Hi")
+        query_set = request.data
+        if ResumeGame.objects.filter(user_id=request.user.id).exists():
+            query_table = ResumeGame.objects.get(user_id=request.user.id).delete()
+        data = {
+            "user_id": request.user.id,
+            "userid1": query_set["userid1"],
+            "userid2": query_set["userid2"],
+            "player1": query_set["player1"],
+            "player2": query_set["player2"],
+            "team1": query_set["team1"],
+            "team2": query_set["team2"],
+            "score1": query_set["score1"],
+            "score2": query_set["score2"],
+            "positions1": query_set["positions1"],
+            "position2": query_set["position2"],
+            "inning": query_set["inning"],
+            "balls": query_set["balls"],
+            "outs": query_set["outs"],
+            "donehits": query_set["donehits"],
+            "EH": query_set["EH"],
+        }
+        serializer = ResumeModelSerializer(data=data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({"details": "We can't find any account "}, status=status.HTTP_404_NOT_FOUND)
