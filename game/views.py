@@ -28,7 +28,7 @@ class GameView(APIView):
     def post(self, request):
         """To store the the game details"""
         user = UserTable.objects.get(id=request.user.id)
-        opponent = UserTable.objects.get(user_id=request.data['user_id'])
+        opponent = UserTable.objects.get(search_id=request.data['user_id'])
         if opponent.team_name != user.team_name:
 
             data = {
@@ -71,13 +71,13 @@ class SearchPlayer(APIView):
             # print(User.email)
             data = {
                 "user": request.user.id,
-                "player_id": User.user_id,
+                "player_id": User.search_id,
                 "player_name": User.player_name,
                 "player_team": User.team_name,
                 "email": User.email
             }
             player = SearchModel.objects.filter(user=request.user.id)
-            if player.filter(player_id=User.user_id).exists():
+            if player.filter(player_id=User.search_id).exists():
                 pass
             else:
                 serializer = SearchModelSerializer(data=data)
@@ -85,7 +85,7 @@ class SearchPlayer(APIView):
                     serializer.save()
 
             return Response({
-                "user_id": User.user_id,
+                "user_id": User.search_id,
                 "player_name": User.player_name,
                 "player_team": User.team_name,
                 "email": User.email,

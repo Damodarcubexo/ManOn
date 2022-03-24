@@ -7,7 +7,7 @@ from user_data.models import UserTable, Otp
 class UserTableSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTable
-        fields = ['email', 'password', 'firstName', 'lastName', 'player_name', 'user_id', 'team_name']
+        fields = ['email', 'password', 'firstName', 'lastName', 'player_name', 'search_id', 'team_name']
 
     def create(self, validated_data):
         validated_data['email'] = validated_data['email'].lower()
@@ -83,4 +83,4 @@ class GetSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTable
         # fields = '__all__'
-        fields = ['id', 'user_id', 'email', 'firstName', 'lastName', 'player_name', 'team_name']
+        fields = ['id', 'search_id', 'email', 'firstName', 'lastName', 'player_name', 'team_name']
