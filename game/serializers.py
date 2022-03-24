@@ -10,6 +10,7 @@ class GameModelSerializer(serializers.ModelSerializer):
     # player1_score = serializers.IntegerField(default=0)
     # player2 = serializers.CharField(max_length=50)
     dateTime = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+
     # player2_score = serializers.IntegerField(default=0)
     # player1_team = serializers.CharField(max_length=50)
     # player2_team = serializers.CharField(max_length=50)
@@ -30,9 +31,14 @@ class SearchModelSerializer(serializers.ModelSerializer):
         model = SearchModel
         fields = '__all__'
 
+
 class ResumeModelSerializer(serializers.ModelSerializer):
     """To serialize and create the data of Searched team"""
+    user_id = serializers.IntegerField()
 
     class Meta:
         model = ResumeGame
         fields = '__all__'
+
+    # def create(self, validated_data):
+    #     return ResumeGame.objects.create(**validated_data)

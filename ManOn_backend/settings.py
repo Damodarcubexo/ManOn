@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middlewreturn Response({"data": serializer.data}, status=status.HTTP_201_CREATED)are.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'ManOn_backend.urls'
@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #     }
 # }
 
-#
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
