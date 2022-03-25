@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4v@f**$k3vs%ot5itbdg@_z2+0@8qszgwz-cw@o5ltc@&n-5s='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #     }
 # }
 
-# #
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -110,21 +110,21 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 #     }
 # }
 
-#
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'df2iahq3ass73a',
-        'USER': 'shkxeyfiogduaf',
-        'PASSWORD': '8043a2a2d2c7bd1398978d4416a9358e31be55e1653d169c2817afebb95d5658',
-        'HOST': 'ec2-34-206-148-196.compute-1.amazonaws.com',
-        'PORT': 5432,
-    }
-}
+##
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#     # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'df2iahq3ass73a',
+#         'USER': 'shkxeyfiogduaf',
+#         'PASSWORD': '8043a2a2d2c7bd1398978d4416a9358e31be55e1653d169c2817afebb95d5658',
+#         'HOST': 'ec2-34-206-148-196.compute-1.amazonaws.com',
+#         'PORT': 5432,
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
