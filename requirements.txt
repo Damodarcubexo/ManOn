@@ -16,6 +16,7 @@ click-plugins==1.1.1
 click-repl==0.2.0
 colorama==0.4.4
 commonmark==0.9.1
+DateTime==4.4
 Deprecated==1.2.13
 dj-database-url==0.5.0
 Django==3.2.12
@@ -64,3 +65,4 @@ vine==5.0.0
 wcwidth==0.2.5
 whitenoise==6.0.0
 wrapt==1.13.3
+zope.interface==5.4.0

@@ -61,7 +61,7 @@ class SearchPlayer(APIView):
 
     def get(self, request):
         query = []
-        result = re.match("[a-z0-9]+@[a-z]+\.[a-z]{2,3}", request.query_params["id"])
+        result = re.match("[a-z.0-9]+@[a-z]+\.[a-z]{2,3}", request.query_params["id"])
         query.append(Q(email=request.query_params['id'])) if result else query.append(
             Q(user_id=request.query_params['id']))
         if UserTable.objects.filter(reduce(operator.or_, query)).exists():
