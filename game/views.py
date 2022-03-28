@@ -131,6 +131,7 @@ class ResumeView(APIView):
             "positions1": query_set["positions1"],
             "position2": query_set["position2"],
             "position3": query_set["position3"],
+            "topBottom": query_set["topBottom"],
             "inning": query_set["inning"],
             "balls": query_set["balls"],
             "outs": query_set["outs"],
@@ -142,3 +143,8 @@ class ResumeView(APIView):
             serializer.save()
             return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
         return Response({"details": "We can't find any account "}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request):
+        if ResumeGame.objects.filter(user_id=request.user.id).exists():
+            ResumeGame.objects.get(user_id=request.user.id).delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
