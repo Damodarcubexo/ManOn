@@ -130,6 +130,7 @@ class ResumeView(APIView):
             "score2": query_set["score2"],
             "positions1": query_set["positions1"],
             "position2": query_set["position2"],
+            "position3": query_set["position3"],
             "inning": query_set["inning"],
             "balls": query_set["balls"],
             "outs": query_set["outs"],

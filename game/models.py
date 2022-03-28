@@ -41,7 +41,7 @@ class ResumeGame(models.Model):
     score2 = models.IntegerField()
     positions1 = models.BooleanField()
     position2 = models.BooleanField()
-    position3 = models.BooleanField
+    position3 = models.BooleanField(default=0)
     inning = models.IntegerField()
     balls = models.IntegerField()
     outs = models.IntegerField()
