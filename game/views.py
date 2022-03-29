@@ -67,7 +67,7 @@ class SearchPlayer(APIView):
         if UserTable.objects.filter(reduce(operator.or_, query)).exists():
             User = UserTable.objects.get(reduce(operator.or_, query))
             if request.user == User:
-                return Response({"details": "You can't play with your self"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"details": "You can't play with your self"}, status=status.HTTP_400_BAD_REQUEST)
             # print(User.email)
             data = {
                 "user": request.user.id,
