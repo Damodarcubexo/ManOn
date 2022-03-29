@@ -78,7 +78,7 @@ class SentMailView(APIView):
         try:
             user = UserTable.objects.get(email=request.data['email'])
         except:
-            return Response({'error': 'Email does not exits.'})
+            return Response({'error': 'Email does not exits.'}, status=status.HTTP_404_NOT_FOUND )
 
         if Otp.objects.filter(email=user).exists:
             Otp.objects.filter(email=user).delete()
