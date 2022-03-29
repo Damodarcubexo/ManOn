@@ -77,7 +77,7 @@ class SentMailView(APIView):
         """sending the otp to user mail id"""
         try:
             user = UserTable.objects.get(email=request.data['email'])
-        except UserTable.DoesNotExist:
+        except:
             return Response({'error': 'Email does not exits.'})
 
         if Otp.objects.filter(email=user).exists:
@@ -87,6 +87,7 @@ class SentMailView(APIView):
         otp.save()
         subject = 'Reset Your Password'
         body = f'This is your OTP to reset password {otp.otp}'
+
         # data = {
         #     "email_receiver": user.email,
         #     "body": body,
@@ -95,11 +96,12 @@ class SentMailView(APIView):
         #
         # email_sent.delay(data)
         # return Response({'hii'})
+
         try:
             send_mail(subject, body, settings.EMAIL_HOST_USER, [user.email, ], fail_silently=False)
             return Response({"status": "mail sent "}, status=status.HTTP_201_CREATED)
         except:
-            return Response({"status": "An error ocured. Try again!!!"}, status=status.HTTP_201_CREATED)
+            return Response({"status": "An error ocured. Try again!!!"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OtpVerification(APIView):
