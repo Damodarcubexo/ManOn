@@ -40,6 +40,7 @@ class ResumeGame(models.Model):
     score1 = models.IntegerField()
     score2 = models.IntegerField()
     inningHalf = models.IntegerField(default=0)
+    teamSwitching= models.BooleanField(default=True)
     positions1 = models.BooleanField()
     position2 = models.BooleanField()
     position3 = models.BooleanField(default=0)
