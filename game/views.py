@@ -2,10 +2,8 @@ import datetime
 import operator
 import re
 from functools import reduce
-
 from django.db.models import Q
 from rest_framework import status
-
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -33,7 +31,6 @@ class GameView(APIView):
 
             data = {
                 "user_id": user.id,
-                # "player_id":user.user_id,
                 'player1': user.player_name,
                 "player1_team": user.team_name,
                 "player2": opponent.player_name,
