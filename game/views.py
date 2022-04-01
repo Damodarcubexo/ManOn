@@ -125,6 +125,8 @@ class ResumeView(APIView):
             "team2": query_set["team2"],
             "score1": query_set["score1"],
             "score2": query_set["score2"],
+            "inningHalf": query_set["inningHalf"],
+            "teamSwitching": query_set["teamSwitching"],
             "positions1": query_set["positions1"],
             "position2": query_set["position2"],
             "position3": query_set["position3"],
@@ -144,4 +146,4 @@ class ResumeView(APIView):
     def delete(self, request):
         if ResumeGame.objects.filter(user_id=request.user.id).exists():
             ResumeGame.objects.get(user_id=request.user.id).delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
