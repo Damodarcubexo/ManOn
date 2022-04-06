@@ -116,6 +116,15 @@ class ResumeView(APIView):
 
     def post(self, request):
         query_set = request.data
+        list1 = ResumeGame.objects.filter(user_id=request.user.id).values()
+        if list1:
+            gamestate = list(list1[0]["gameState"])
+            for each_dict in query_set["gameState"]:
+                gamestate.append(each_dict)
+            # gamestate.append(query_set["gameState"])
+        else:
+            gamestate = query_set["gameState"]
+
         if ResumeGame.objects.filter(user_id=request.user.id).exists():
             query_table = ResumeGame.objects.get(user_id=request.user.id).delete()
         data = {
@@ -139,6 +148,10 @@ class ResumeView(APIView):
             "outs": query_set["outs"],
             "donehits": query_set["donehits"],
             "EH": query_set["EH"],
+            "hitCount": query_set["hitCount"],
+            "activeGameStep": query_set["activeGameStep"],
+            "gameState": gamestate
+
         }
         serializer = ResumeModelSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
@@ -150,3 +163,4 @@ class ResumeView(APIView):
         if ResumeGame.objects.filter(user_id=request.user.id).exists():
             ResumeGame.objects.get(user_id=request.user.id).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
