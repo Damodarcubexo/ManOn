@@ -35,6 +35,7 @@ class SearchModelSerializer(serializers.ModelSerializer):
 class ResumeModelSerializer(serializers.ModelSerializer):
     """To serialize and create the data of Searched team"""
     user_id = serializers.IntegerField()
+    gameState = serializers.JSONField()
 
     class Meta:
         model = ResumeGame

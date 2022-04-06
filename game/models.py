@@ -50,6 +50,9 @@ class ResumeGame(models.Model):
     outs = models.IntegerField()
     donehits = models.IntegerField()
     EH = models.BooleanField()
+    hitCount = models.IntegerField(default=9)
+    activeGameStep = models.IntegerField(default=0)
+    gameState = models.JSONField(blank=True, default=[])
 
     def __str__(self):
         return str(self.userid1)
