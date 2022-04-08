@@ -119,8 +119,13 @@ class ResumeView(APIView):
         list1 = ResumeGame.objects.filter(user_id=request.user.id).values()
         if list1:
             gamestate = list(list1[0]["gameState"])
+            # for each_dict in query_set["gameState"]:
+            #     gamestate.append(each_dict)
             for each_dict in query_set["gameState"]:
-                gamestate.append(each_dict)
+                if each_dict in gamestate:
+                    pass
+                else:
+                    gamestate.append(each_dict)
             # gamestate.append(query_set["gameState"])
         else:
             gamestate = query_set["gameState"]
