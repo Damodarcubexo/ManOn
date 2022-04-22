@@ -7,12 +7,14 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+
 from game.models import GameModel, SearchModel, ResumeGame
 from game.serializers import GameModelSerializer, SearchModelSerializer, ResumeModelSerializer
 from user_data.models import UserTable
 from user_data.permissions import IsOwnerOrReadOnly
 
-
+ModelViewSet
 class GameView(APIView):
     """ Api for post the game history and retrive the game history"""
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
@@ -113,8 +115,22 @@ class ResumeView(APIView):
 
     def post(self, request):
         query_set = request.data
-        if ResumeGame.objects.filter(user_id=request.user.id).exists():
-            query_table = ResumeGame.objects.get(user_id=request.user.id).delete()
+        list1 = ResumeGame.objects.filter(user_id=request.user.id).values()
+        if list1:
+            gamestate = list(list1[0]["gameState"])
+            # for each_dict in query_set["gameState"]:
+            #     gamestate.append(each_dict)
+            for each_dict in query_set["gameState"]:
+                if each_dict in gamestate:
+                    pass
+                else:
+                    gamestate.append(each_dict)
+            # gamestate.append(query_set["gameState"])
+        else:
+            gamestate = query_set["gameState"]
+
+        # if ResumeGame.objects.filter(user_id=request.user.id).exists():
+        #     query_table = ResumeGame.objects.get(user_id=request.user.id).delete()
         data = {
             "user_id": request.user.id,
             "userid1": query_set["userid1"],
@@ -136,8 +152,25 @@ class ResumeView(APIView):
             "outs": query_set["outs"],
             "donehits": query_set["donehits"],
             "EH": query_set["EH"],
+            "hitCount": query_set["hitCount"],
+            "activeGameStep": query_set["activeGameStep"],
+            "gameState": gamestate
+
         }
-        serializer = ResumeModelSerializer(data=data)
+        #serializer = ResumeModelSerializer(data=data)
+        # request.data["user_id"] = request.user.id
+        if ResumeGame.objects.filter(user_id=request.user.id).exists():
+            # partial = kwargs.pop('partial', False)
+            # instance = self.get_object()
+
+            serializer =ResumeModelSerializer(ResumeGame.objects.get(user_id=request.user.id), data=data, partial=False)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            # self.perform_update(serializer)
+            # serializer = ResumeModelSerializer(query_set, data=data)
+        else:
+            serializer = ResumeModelSerializer(data=data)
+        # serializer = ResumeModelSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
@@ -147,3 +180,4 @@ class ResumeView(APIView):
         if ResumeGame.objects.filter(user_id=request.user.id).exists():
             ResumeGame.objects.get(user_id=request.user.id).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
