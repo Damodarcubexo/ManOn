@@ -31,6 +31,7 @@ class RegisterAPI(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class GetAPI(APIView):
     """To get the details of every user present in the database"""
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
