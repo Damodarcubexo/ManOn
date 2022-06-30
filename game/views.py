@@ -186,4 +186,4 @@ class ResumeView(APIView):
         if ResumeGame.objects.filter(user_id=request.user.id).exists():
             ResumeGame.objects.get(user_id=request.user.id).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({"message": "Id does not exists"}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"message": "Id doesn't exists"}, status=status.HTTP_404_NOT_FOUND)
