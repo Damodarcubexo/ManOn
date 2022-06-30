@@ -15,6 +15,8 @@ from user_data.models import UserTable
 from user_data.permissions import IsOwnerOrReadOnly
 
 ModelViewSet
+
+
 class GameView(APIView):
     """ Api for post the game history and retrive the game history"""
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
@@ -50,9 +52,12 @@ class GameView(APIView):
 
     def delete(self, request):
         # print()
-        snippet = GameModel.objects.get(id=request.query_params["id"])
-        snippet.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+            snippet = GameModel.objects.get(id=request.query_params["id"])
+            snippet.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except:
+            return Response({"message": "Id does not exists"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class SearchPlayer(APIView):
@@ -157,13 +162,14 @@ class ResumeView(APIView):
             "gameState": gamestate
 
         }
-        #serializer = ResumeModelSerializer(data=data)
+        # serializer = ResumeModelSerializer(data=data)
         # request.data["user_id"] = request.user.id
         if ResumeGame.objects.filter(user_id=request.user.id).exists():
             # partial = kwargs.pop('partial', False)
             # instance = self.get_object()
 
-            serializer =ResumeModelSerializer(ResumeGame.objects.get(user_id=request.user.id), data=data, partial=False)
+            serializer = ResumeModelSerializer(ResumeGame.objects.get(user_id=request.user.id), data=data,
+                                               partial=False)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             # self.perform_update(serializer)
@@ -179,5 +185,5 @@ class ResumeView(APIView):
     def delete(self, request):
         if ResumeGame.objects.filter(user_id=request.user.id).exists():
             ResumeGame.objects.get(user_id=request.user.id).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Id does not exists"}, status=status.HTTP_404_NOT_FOUND)
