@@ -184,6 +184,7 @@ class ResumeView(APIView):
 
     def delete(self, request):
         if ResumeGame.objects.filter(user_id=request.user.id).exists():
-            ResumeGame.objects.get(user_id=request.user.id).delete()
+            snippet = ResumeGame.objects.get(user_id=request.user.id)
+            snippet.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response({"message": "Id doesn't exists"}, status=status.HTTP_404_NOT_FOUND)
