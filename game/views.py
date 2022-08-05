@@ -14,8 +14,6 @@ from game.serializers import GameModelSerializer, SearchModelSerializer, ResumeM
 from user_data.models import UserTable
 from user_data.permissions import IsOwnerOrReadOnly
 
-ModelViewSet
-
 
 class GameView(APIView):
     """ Api for post the game history and retrive the game history"""
@@ -148,6 +146,7 @@ class ResumeView(APIView):
             "score2": query_set["score2"],
             "inningHalf": query_set["inningHalf"],
             "teamSwitching": query_set["teamSwitching"],
+            "choose_player": query_set["chooseplayer"],
             "positions1": query_set["positions1"],
             "position2": query_set["position2"],
             "position3": query_set["position3"],
