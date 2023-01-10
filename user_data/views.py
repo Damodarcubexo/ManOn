@@ -16,12 +16,13 @@ from django.http import HttpResponse
 
 
 # Create your views here.
-class RegisterAPI(APIView):
+class RegisterAPI(generics.CreateAPIView):
     """Api to store the new user details into database"""
-
+    serializer_class = UserTableSerializer
     def post(self, request):
         """so save the details and generating the user id"""
-        serializer = UserTableSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
+        # breakpoint()
         if serializer.is_valid():
             user_key = serializer.save()
             add_user_id = UserTable.objects.get(id=user_key.pk)

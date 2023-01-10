@@ -12,6 +12,7 @@ dist/
 downloads/
 eggs/
 .eggs/
+zemv/
 lib/
 lib64/
 parts/
