@@ -128,23 +128,23 @@ WSGI_APPLICATION = 'ManOn_backend.wsgi.application'
 # }
 
 # #
-DATABASES = {
-    'default': {
-        'ENGINE'  : 'django.db.backends.mysql', # <-- UPDATED line 
-        'NAME'    : 'mytestdb',                 # <-- UPDATED line 
-        'USER'    : 'test',                     # <-- UPDATED line
-        'PASSWORD': 'Secret_1234',              # <-- UPDATED line
-        'HOST'    : 'localhost',                # <-- UPDATED line
-        'PORT'    : '3306',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE'  : 'django.db.backends.mysql', # <-- UPDATED line 
+#         'NAME'    : 'mytestdb',                 # <-- UPDATED line 
+#         'USER'    : 'test',                     # <-- UPDATED line
+#         'PASSWORD': 'Secret_1234',              # <-- UPDATED line
+#         'HOST'    : 'localhost',                # <-- UPDATED line
+#         'PORT'    : '3306',
 #     }
-    # 'default': {
+# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+        }        # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
     #     'NAME': 'man_on',
     #     'USER': 'postgres',
